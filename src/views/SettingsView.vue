@@ -1,10 +1,10 @@
 <template>
-  <div class="about">
+  <div class="users">
     <el-card>
       <template #header>
-        <h2>关于系统</h2>
+        <h2>系统设置</h2>
       </template>
-      <p>这是一个基于 Vue.js + Element Plus 的管理系统</p>
+      <p>系统设置功能正在开发中...</p>
       <el-button type="primary" @click="$router.push('/')">
         返回桌面
       </el-button>
@@ -14,12 +14,12 @@
 
 <script>
 export default {
-  name: 'AboutView'
+  name: 'SettingsView'
 }
 </script>
 
 <style scoped>
-.about {
+.users {
   padding: 20px;
 }
 </style>

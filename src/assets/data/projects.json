@@ -1,0 +1,20 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "name": "Data Analysis",
+      "description": "Data visualization and reporting",
+      "icon": "User",
+      "color": "#409EFF",
+      "route": "/projectsdetails"
+    },
+    {
+      "id": 2,
+      "name": "Caption Extraction",
+      "description": "Extract captions from videos",
+      "icon": "Lock",
+      "color": "#67C23A",
+      "route": "/projectsdetails"
+    }
+  ]
+}

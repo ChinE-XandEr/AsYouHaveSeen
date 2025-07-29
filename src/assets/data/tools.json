@@ -1,0 +1,52 @@
+{
+  "tools": [
+    {
+      "id": 1,
+      "name": "在线编辑器",
+      "description": "代码在线编辑",
+      "icon": "📝",
+      "color": "#409EFF",
+      "url": "https://codepen.io"
+    },
+    {
+      "id": 2,
+      "name": "图片压缩",
+      "description": "在线图片压缩",
+      "icon": "🖼️",
+      "color": "#67C23A",
+      "url": "https://tinypng.com"
+    },
+    {
+      "id": 3,
+      "name": "JSON格式化",
+      "description": "JSON数据格式化",
+      "icon": "{}",
+      "color": "#E6A23C",
+      "url": "https://jsonformatter.org"
+    },
+    {
+      "id": 4,
+      "name": "颜色选择器",
+      "description": "在线颜色工具",
+      "icon": "🎨",
+      "color": "#F56C6C",
+      "url": "https://colorhunt.co"
+    },
+    {
+      "id": 5,
+      "name": "API测试",
+      "description": "Postman在线版",
+      "icon": "🔧",
+      "color": "#909399",
+      "url": "https://www.postman.com"
+    },
+    {
+      "id": 6,
+      "name": "正则测试",
+      "description": "正则表达式测试",
+      "icon": "🔍",
+      "color": "#606266",
+      "url": "https://regex101.com"
+    }
+  ]
+}

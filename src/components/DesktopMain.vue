@@ -1,0 +1,815 @@
+<template>
+  <div class="desktop">
+    <!-- 系统标题栏 -->
+    <div class="desktop-header">
+      <div class="system-title">
+        <el-icon :size="24" color="#409EFF">
+          <Monitor />
+        </el-icon>
+        <span class="title-text">As you've seen</span>
+      </div>
+      <div class="user-info">
+        <el-avatar
+          :size="32"
+          src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+        />
+        <span class="username">Manager</span>
+        <el-dropdown>
+          <el-button type="text">
+            <el-icon><ArrowDown /></el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>Profile</el-dropdown-item>
+              <el-dropdown-item divided>Log out</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+    </div>
+
+    <!-- 快捷应用入口 -->
+    <section class="apps-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <el-icon><Grid /></el-icon>
+          Projects
+        </h2>
+        <el-button
+          type="text"
+          size="small"
+          @click="handleEditProjects"
+          :class="{ 'edit-active': isEditing }"
+        >
+          {{ isEditing ? 'Finish' : 'Edit' }}
+        </el-button>
+      </div>
+
+      <el-row :gutter="16">
+        <el-col v-for="app in systemApps" :key="app.id" :span="6">
+          <el-card
+            class="app-card"
+            shadow="hover"
+            @click="isEditing ? null : openApp(app)"
+            :class="{ editing: isEditing }"
+          >
+            <div v-if="isEditing" class="project-delete-button" @click.stop="deleteProject(app)">
+              <el-icon><Close /></el-icon>
+            </div>
+            <div class="app-content">
+              <div class="app-icon" :style="{ backgroundColor: app.color }">
+                <el-icon :size="32">
+                  <component :is="app.icon" />
+                </el-icon>
+              </div>
+              <div class="app-info">
+                <div class="app-name">{{ app.name }}</div>
+                <div class="app-description">{{ app.description }}</div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+
+        <!-- 添加新项目的卡片 -->
+        <el-col v-if="isEditing" :span="6">
+          <el-card class="app-card add-card" shadow="hover" @click="showAddProjectDialog">
+            <div class="add-icon">
+              <el-icon :size="32"><Plus /></el-icon>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+
+      <!-- 添加/编辑项目的对话框 -->
+      <el-dialog
+        v-model="dialogVisible"
+        :title="editingProject.id ? 'Edit Project' : 'Add Project'"
+        width="500px"
+      >
+        <el-form :model="editingProject" label-width="100px">
+          <el-form-item label="Name">
+            <el-input v-model="editingProject.name" />
+          </el-form-item>
+          <el-form-item label="Description">
+            <el-input v-model="editingProject.description" type="textarea" />
+          </el-form-item>
+          <el-form-item label="Icon">
+            <el-select v-model="editingProject.icon">
+              <el-option label="User" value="User" />
+              <el-option label="Setting" value="Setting" />
+              <el-option label="Document" value="Document" />
+              <el-option label="Folder" value="Folder" />
+              <el-option label="DataAnalysis" value="DataAnalysis" />
+              <el-option label="Monitor" value="Monitor" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Color">
+            <el-color-picker v-model="editingProject.color" />
+          </el-form-item>
+          <el-form-item label="Route">
+            <el-input v-model="editingProject.route" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="saveProject">Save</el-button>
+          </span>
+        </template>
+      </el-dialog>
+    </section>
+
+    <!-- 常用工具 -->
+    <section class="tools-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <el-icon><Tools /></el-icon>
+          Tools
+        </h2>
+        <el-button
+          type="text"
+          size="small"
+          @click="handleEditTools"
+          :class="{ 'edit-active': isEditingTools }"
+        >
+          {{ isEditingTools ? 'Finish' : 'Edit' }}
+        </el-button>
+      </div>
+
+      <el-row :gutter="16">
+        <el-col v-for="tool in commonTools" :key="tool.id" :span="4">
+          <el-card
+            class="tool-card"
+            shadow="hover"
+            @click="isEditingTools ? null : openTool(tool)"
+            :class="{ editing: isEditingTools }"
+          >
+            <div class="tool-content">
+              <div class="tool-icon" :style="{ backgroundColor: tool.color }">
+                <span class="tool-emoji">{{ tool.icon }}</span>
+              </div>
+              <div class="tool-info">
+                <div class="tool-name">{{ tool.name }}</div>
+                <div class="tool-description">{{ tool.description }}</div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+
+        <!-- 添加新工具的卡片 -->
+        <el-col v-if="isEditingTools" :span="4">
+          <el-card class="tool-card add-card" shadow="hover" @click="showAddToolDialog">
+            <div class="add-icon">
+              <el-icon :size="32"><Plus /></el-icon>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+
+      <!-- 添加/编辑工具的对话框 -->
+      <el-dialog
+        v-model="toolDialogVisible"
+        :title="editingTool.id ? 'Edit Tool' : 'Add Tool'"
+        width="500px"
+      >
+        <el-form :model="editingTool" label-width="100px">
+          <el-form-item label="Name">
+            <el-input v-model="editingTool.name" />
+          </el-form-item>
+          <el-form-item label="Description">
+            <el-input v-model="editingTool.description" type="textarea" />
+          </el-form-item>
+          <el-form-item label="Icon">
+            <el-input v-model="editingTool.icon" placeholder="输入表情符号" />
+          </el-form-item>
+          <el-form-item label="Color">
+            <el-color-picker v-model="editingTool.color" />
+          </el-form-item>
+          <el-form-item label="URL">
+            <el-input v-model="editingTool.url" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="toolDialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="saveTool">Save</el-button>
+          </span>
+        </template>
+      </el-dialog>
+    </section>
+
+    <!-- 建议 -->
+    <section class="status-section">
+      <h2 class="section-title">
+        <el-icon><Monitor /></el-icon>
+        Recommendations
+      </h2>
+      <el-row :gutter="16"> </el-row>
+    </section>
+  </div>
+</template>
+
+<script>
+import { ref, onMounted, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import defaultProjectsData from '../assets/data/projects.json'
+import defaultToolsData from '../assets/data/tools.json'
+
+// 创建响应式数据存储
+const projectsData = reactive({
+  projects: [...defaultProjectsData.projects]
+})
+const toolsData = reactive({
+  tools: [...defaultToolsData.tools]
+})
+import { Edit, Close, Plus } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+
+export default {
+  name: 'DesktopMain',
+  setup() {
+    const router = useRouter()
+    const systemApps = ref([])
+    const isEditing = ref(false)
+    const isEditingTools = ref(false)
+    const dialogVisible = ref(false)
+    const toolDialogVisible = ref(false)
+    const editingProject = ref({
+      name: '',
+      description: '',
+      icon: 'Document',
+      color: '#409EFF',
+      route: '',
+    })
+    const editingTool = ref({
+      name: '',
+      description: '',
+      icon: '🔧',
+      color: '#409EFF',
+      url: '',
+    })
+
+    // 加载项目数据
+    onMounted(() => {
+      systemApps.value = [...projectsData.projects]
+      commonTools.value = [...toolsData.tools]
+    })
+
+    // 保存到JSON文件
+    const saveToFile = async (data, type, retryCount = 3) => {
+      try {
+        const endpoint = type === 'tools' ? '/api/tools' : '/api/projects'
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+
+        const result = await response.json()
+        
+        if (!response.ok) {
+          throw new Error(result.error || '保存失败')
+        }
+
+        if (!result.success) {
+          throw new Error('保存操作未成功完成')
+        }
+
+        // 更新本地数据
+        if (type === 'projects') {
+          projectsData.projects = [...data.projects]
+        } else if (type === 'tools') {
+          toolsData.tools = [...data.tools]
+        }
+
+        ElMessage.success(`${type === 'tools' ? 'Tools' : 'Projects'} 已保存`)
+        return true
+      } catch (error) {
+        console.error(`Error saving ${type}:`, error)
+
+        if (retryCount > 0) {
+          ElMessage.warning(`重试保存 ${type}... (剩余重试次数: ${retryCount})`)
+          await new Promise(resolve => setTimeout(resolve, 1000))
+          return saveToFile(data, type, retryCount - 1)
+        }
+
+        ElMessage.error(`保存失败: ${error.message}`)
+        return false
+      }
+    }
+
+    // 处理编辑项目状态
+    const handleEditProjects = async () => {
+      if (isEditing.value) {
+        // 保存到 JSON 文件
+        const projectsJson = {
+          projects: systemApps.value.map((app, index) => ({
+            ...app,
+            id: index + 1, // 重新生成ID
+          })),
+        }
+        const saveSuccess = await saveToFile(projectsJson, 'projects')
+        if (!saveSuccess) {
+          ElMessage.error('保存失败，请保持编辑模式并重试')
+          return
+        }
+      }
+      isEditing.value = !isEditing.value
+    }
+
+    // 删除项目
+    const deleteProject = async (project) => {
+      const index = systemApps.value.findIndex((p) => p.id === project.id)
+      if (index !== -1) {
+        systemApps.value.splice(index, 1)
+        // 立即保存到 JSON 文件
+        const projectsJson = {
+          projects: systemApps.value.map((app, idx) => ({
+            ...app,
+            id: idx + 1, // 重新生成ID
+          })),
+        }
+        await saveToFile(projectsJson, 'projects')
+      }
+    }
+
+    // 显示添加项目对话框
+    const showAddProjectDialog = () => {
+      editingProject.value = {
+        id: systemApps.value.length + 1,
+        name: '',
+        description: '',
+        icon: 'Document',
+        color: '#409EFF',
+        route: '',
+      }
+      dialogVisible.value = true
+    }
+
+    // 保存项目
+    const saveProject = () => {
+      if (!editingProject.value.name) {
+        ElMessage.warning('Please enter project name')
+        return
+      }
+
+      const index = systemApps.value.findIndex((p) => p.id === editingProject.value.id)
+      if (index === -1) {
+        systemApps.value.push({ ...editingProject.value })
+      } else {
+        systemApps.value[index] = { ...editingProject.value }
+      }
+
+      dialogVisible.value = false
+    }
+
+    // 常用工具
+    const commonTools = ref([
+      {
+        id: 1,
+        name: '在线编辑器',
+        description: '代码在线编辑',
+        icon: '📝',
+        color: '#409EFF',
+        url: 'https://codepen.io',
+      },
+      {
+        id: 2,
+        name: '图片压缩',
+        description: '在线图片压缩',
+        icon: '🖼️',
+        color: '#67C23A',
+        url: 'https://tinypng.com',
+      },
+      {
+        id: 3,
+        name: 'JSON格式化',
+        description: 'JSON数据格式化',
+        icon: '{}',
+        color: '#E6A23C',
+        url: 'https://jsonformatter.org',
+      },
+      {
+        id: 4,
+        name: '颜色选择器',
+        description: '在线颜色工具',
+        icon: '🎨',
+        color: '#F56C6C',
+        url: 'https://colorhunt.co',
+      },
+      {
+        id: 5,
+        name: 'API测试',
+        description: 'Postman在线版',
+        icon: '🔧',
+        color: '#909399',
+        url: 'https://www.postman.com',
+      },
+      {
+        id: 6,
+        name: '正则测试',
+        description: '正则表达式测试',
+        icon: '🔍',
+        color: '#606266',
+        url: 'https://regex101.com',
+      },
+    ])
+
+    // 打开应用
+    const openApp = (app) => {
+      if (app.route) {
+        router.push(app.route)
+      }
+    }
+
+    // 打开工具
+    const openTool = (tool) => {
+      if (tool.url) {
+        window.open(tool.url, '_blank')
+      }
+    }
+
+    // 处理编辑工具状态
+    const handleEditTools = async () => {
+      if (isEditingTools.value) {
+        // 保存到 JSON 文件
+        const toolsJson = {
+          tools: commonTools.value.map((tool, index) => ({
+            ...tool,
+            id: index + 1, // 重新生成ID
+          })),
+        }
+        await saveToFile(toolsJson, 'tools')
+      }
+      isEditingTools.value = !isEditingTools.value
+    }
+
+    // 删除工具
+    const deleteTool = async (tool) => {
+      const index = commonTools.value.findIndex((t) => t.id === tool.id)
+      if (index !== -1) {
+        commonTools.value.splice(index, 1)
+        // 立即保存到 JSON 文件
+        const toolsJson = {
+          tools: commonTools.value.map((t, idx) => ({
+            ...t,
+            id: idx + 1, // 重新生成ID
+          })),
+        }
+        await saveToFile(toolsJson, 'tools')
+      }
+    }
+
+    // 显示添加工具对话框
+    const showAddToolDialog = () => {
+      editingTool.value = {
+        id: commonTools.value.length + 1,
+        name: '',
+        description: '',
+        icon: '🔧',
+        color: '#409EFF',
+        url: '',
+      }
+      toolDialogVisible.value = true
+    }
+
+    // 保存工具
+    const saveTool = () => {
+      if (!editingTool.value.name) {
+        ElMessage.warning('Please enter tool name')
+        return
+      }
+
+      if (!editingTool.value.url) {
+        ElMessage.warning('Please enter tool URL')
+        return
+      }
+
+      const index = commonTools.value.findIndex((t) => t.id === editingTool.value.id)
+      if (index === -1) {
+        commonTools.value.push({ ...editingTool.value })
+      } else {
+        commonTools.value[index] = { ...editingTool.value }
+      }
+
+      toolDialogVisible.value = false
+    }
+
+    return {
+      systemApps,
+      commonTools,
+      openApp,
+      openTool,
+      handleEditProjects,
+      handleEditTools,
+      isEditing,
+      isEditingTools,
+      dialogVisible,
+      toolDialogVisible,
+      editingProject,
+      editingTool,
+      showAddProjectDialog,
+      showAddToolDialog,
+      saveProject,
+      saveTool,
+      deleteProject,
+      deleteTool,
+      Edit,
+      Close,
+      Plus,
+    }
+  },
+}
+</script>
+
+<style scoped>
+.desktop {
+  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 0;
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.desktop-header {
+  background: white;
+  padding: 16px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.system-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title-text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #303133;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.username {
+  font-weight: 500;
+  color: #606266;
+}
+
+.apps-section,
+.tools-section,
+.status-section,
+.recent-section {
+  margin: 0 24px 32px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #303133;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-card,
+.tool-card {
+  cursor: pointer;
+  transition: all 0.3s;
+  height: 100px;
+  margin-bottom: 16px;
+}
+
+.app-card:hover,
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  background-color: rgba(64, 158, 255, 0.1);
+}
+
+.app-content,
+.tool-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+  padding: 12px 16px;
+}
+
+.app-icon,
+.tool-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+}
+
+.app-info,
+.tool-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 48px;
+}
+
+.app-name,
+.tool-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #303133;
+  margin-bottom: 2px;
+  line-height: 1.4;
+}
+
+.app-description,
+.tool-description {
+  font-size: 12px;
+  color: #909399;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.edit-active {
+  color: #409eff !important;
+}
+
+.app-card {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s;
+  height: 100px;
+  margin-bottom: 16px;
+}
+
+.app-card .project-delete-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.app-card .project-delete-button:hover {
+  background-color: #f56c6c;
+  color: white;
+}
+
+.add-card {
+  border: 2px dashed #dcdfe6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.add-card:hover {
+  border-color: #409eff;
+  color: #409eff;
+}
+
+.add-icon {
+  font-size: 32px;
+  color: inherit;
+}
+
+.tool-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tool-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tool-emoji {
+  font-size: 24px;
+}
+
+.tool-info {
+  flex: 1;
+  text-align: left;
+}
+
+.tool-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #303133;
+  margin-bottom: 4px;
+}
+
+.tool-description {
+  font-size: 12px;
+  color: #909399;
+}
+
+.status-card {
+  height: 120px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+}
+
+.status-icon {
+  flex-shrink: 0;
+}
+
+.status-info {
+  flex: 1;
+}
+
+.status-title {
+  font-size: 14px;
+  color: #909399;
+  margin-bottom: 4px;
+}
+
+.status-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #303133;
+  margin-bottom: 8px;
+}
+
+.status-time {
+  font-size: 12px;
+  color: #c0c4cc;
+}
+
+.recent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.recent-card {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.activity-content strong {
+  color: #303133;
+}
+
+.activity-content p {
+  margin: 4px 0 0;
+  color: #606266;
+  font-size: 14px;
+}
+
+:deep(.el-timeline-item__timestamp) {
+  font-size: 12px;
+  color: #c0c4cc;
+}
+</style>

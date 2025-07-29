@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
 .DS_Store
 dist
@@ -14,12 +15,19 @@ dist-ssr
 coverage
 *.local
 
+# Testing
 /cypress/videos/
 /cypress/screenshots/
+/test/unit/coverage/
+/test/e2e/reports/
+selenium-debug.log
+chromedriver.log
+geckodriver.log
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
 *.suo
 *.ntvs*
@@ -27,4 +35,21 @@ coverage
 *.sln
 *.sw?
 
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Cache files
+.cache
+.temp
+.sass-cache
 *.tsbuildinfo
+
+# Build output
+build/
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
