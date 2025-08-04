@@ -6,7 +6,8 @@
       "description": "Data visualization and reporting",
       "icon": "User",
       "color": "#409EFF",
-      "route": "/projectsdetails"
+      "route": "/projectsdetails/dataanalysis",
+      "projectId": "dataanalysis"
     },
     {
       "id": 2,
@@ -14,7 +15,26 @@
       "description": "Extract captions from videos",
       "icon": "Lock",
       "color": "#67C23A",
-      "route": "/projectsdetails"
+      "route": "/projectsdetails/captionextraction",
+      "projectId": "captionextraction"
+    },
+    {
+      "id": 3,
+      "name": "bosidafeiji",
+      "description": "a game based on the HTML",
+      "icon": "Setting",
+      "color": "#E6A23C",
+      "route": "/projectsdetails/bosidafeiji",
+      "projectId": "bosidafeiji"
+    },
+    {
+      "id": 4,
+      "name": "bosikuaipao",
+      "description": "a game based on the HTML",
+      "icon": "ChatDotRound",
+      "color": "#F56C6C",
+      "route": "/projectsdetails/bosikuaipao",
+      "projectId": "bosikuaipao"
     }
   ]
 }

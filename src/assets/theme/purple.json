@@ -1,0 +1,21 @@
+{
+  "themes": [
+    {
+      "id": "purple",
+      "name": "Purple Theme",
+      "description": "An elegant purple theme",
+      "primaryColor": "#8b5cf6",
+      "variables": {
+        "--header-color": "#ffffff",
+        "--background-left-color": "#faf5ff",
+        "--background-right-color": "#c4b5fd",
+        "--text-color": "#4c1d95",
+        "--border-color": "#a78bfa",
+        "--primary-color": "#8b5cf6",
+        "--secondary-color": "#7c3aed",
+        "--hover-color": "#ede9fe",
+        "--shadow-color": "rgba(139, 92, 246, 0.1)"
+      }
+    }
+  ]
+}

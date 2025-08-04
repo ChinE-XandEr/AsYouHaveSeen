@@ -1,0 +1,21 @@
+{
+  "themes": [
+    {
+      "id": "green",
+      "name": "Green Theme",
+      "description": "A fresh green theme",
+      "primaryColor": "#10b981",
+      "variables": {
+        "--header-color": "#ffffff",
+        "--background-left-color": "#ecfdf5",
+        "--background-right-color": "#a7f3d0",
+        "--text-color": "#064e3b",
+        "--border-color": "#6ee7b7",
+        "--primary-color": "#10b981",
+        "--secondary-color": "#059669",
+        "--hover-color": "#d1fae5",
+        "--shadow-color": "rgba(16, 185, 129, 0.1)"
+      }
+    }
+  ]
+}

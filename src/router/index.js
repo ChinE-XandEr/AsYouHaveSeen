@@ -8,28 +8,45 @@ const router = createRouter({
       path: '/',
       name: 'desktop',
       component: DesktopView,
-      meta: { title: '管理系统桌面' }
+      meta: { title: 'Desktop' },
     },
     {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
-      meta: { title: '关于系统' }
+      meta: { title: 'About' },
     },
-    // 为将来的管理模块预留路由
     {
       path: '/users',
       name: 'users',
       component: () => import('../views/UsersView.vue'),
-      meta: { title: '用户管理' }
+      meta: { title: 'User Management' },
     },
     {
       path: '/settings',
       name: 'settings',
       component: () => import('../views/SettingsView.vue'),
-      meta: { title: '系统设置' }
-    }
-  ]
+      meta: { title: 'Settings' },
+    },
+    {
+      path: '/projectsdetails',
+      name: 'projectsdetails',
+      component: () => import('../views/ProjectsDetailsView.vue'),
+      meta: { title: 'Projects Details' },
+    },
+    {
+      path: '/projectsdetails/:projectId',
+      name: 'project-detail',
+      component: () => import('../views/ProjectsDetailsView.vue'),
+      meta: { title: 'Project Detail' },
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/ProfileView.vue'),
+      meta: { title: 'Profile' },
+    },
+  ],
 })
 
 export default router

@@ -1,0 +1,21 @@
+{
+  "themes": [
+    {
+      "id": "dark",
+      "name": "Dark Theme",
+      "description": "A dark and modern theme",
+      "primaryColor": "#409EFF",
+      "variables": {
+        "--header-color": "#2d3748",
+        "--background-left-color": "#1a202c",
+        "--background-right-color": "#2d3748",
+        "--text-color": "#ffffff",
+        "--border-color": "#4a5568",
+        "--primary-color": "#409EFF",
+        "--secondary-color": "#a0aec0",
+        "--hover-color": "#4a5568",
+        "--shadow-color": "rgba(0, 0, 0, 0.5)"
+      }
+    }
+  ]
+}

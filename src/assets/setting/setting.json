@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "appearance": {
+      "autoTheme": false,
+      "animations": true
+    },
+    "notifications": {
+      "desktopNotifications": true,
+      "emailNotifications": false,
+      "soundNotifications": true
+    },
+    "privacy": {
+      "dataCollection": true,
+      "locationServices": false
+    },
+    "account": {
+      "username": "Manager",
+      "email": "manager@example.com",
+      "language": "zh"
+    }
+  }
+}

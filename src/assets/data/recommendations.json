@@ -1,0 +1,27 @@
+{
+  "recommendations":[
+    {
+      "RecommendedApps": [
+        {
+          "id": "pycharm",
+          "name": "PyCharm",
+          "location": "local"
+        }
+      ],
+      "RecommendedTools": [
+        {
+          "id": "elementplushelp",
+          "name": "ElementPlusHelp",
+          "URL": "element-plus.org"
+        }
+      ],
+      "RecommendedProjects": [
+        {
+          "id": "dataanlysis",
+          "name": "DataAnalysis",
+          "details": "/projectsdetails/dataanalysis"
+        }
+      ]
+    }
+  ]
+}

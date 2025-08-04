@@ -1,0 +1,21 @@
+{
+  "themes": [
+    {
+      "id": "light",
+      "name": "light Theme",
+      "description": "a bright and clean theme",
+      "primaryColor": "#007bff",
+      "variables": {
+        "--header-color": "#ffffff",
+        "--background-left-color": "#f5f7fa",
+        "--background-right-color": "#c3cfe2",
+        "--text-color": "#333333",
+        "--border-color": "#e0e0e0",
+        "--primary-color": "#007bff",
+        "--secondary-color": "#6c757d",
+        "--hover-color": "#f8f9fa",
+        "--shadow-color": "rgba(0, 0, 0, 0.1)"
+      }
+    }
+  ]
+}

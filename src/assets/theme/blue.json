@@ -1,0 +1,21 @@
+{
+  "themes": [
+    {
+      "id": "blue",
+      "name": "Blue Theme",
+      "description": "A calming blue theme",
+      "primaryColor": "#1e40af",
+      "variables": {
+        "--header-color": "#ffffff",
+        "--background-left-color": "#dbeafe",
+        "--background-right-color": "#93c5fd",
+        "--text-color": "#1e3a8a",
+        "--border-color": "#bfdbfe",
+        "--primary-color": "#1e40af",
+        "--secondary-color": "#3b82f6",
+        "--hover-color": "#eff6ff",
+        "--shadow-color": "rgba(30, 64, 175, 0.1)"
+      }
+    }
+  ]
+}

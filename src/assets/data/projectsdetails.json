@@ -1,20 +1,44 @@
 {
   "projectsdetails": [
     {
-      "id": 1,
-      "name": "Project A",
-      "description": "Description for Project A",
-      "status": "active",
-      "created_at": "2023-01-01",
-      "updated_at": "2023-01-10"
+      "id": "dataanalysis",
+      "name": "Data Analysis",
+      "description": "Data visualization and reporting - A comprehensive data analysis tool that provides interactive charts, statistical analysis, and automated reporting capabilities for business intelligence.",
+      "status": "done",
+      "version": "beta 1.0.0",
+      "created_at": "2024-01-01",
+      "updated_at": "2024-01-15",
+      "URL": "https://github.com/ChinE-XandEr/data_analysis"
     },
     {
-      "id": 2,
-      "name": "Project B",
-      "description": "Description for Project B",
-      "status": "inactive",
-      "created_at": "2023-02-01",
-      "updated_at": "2023-02-10"
+      "id": "captionextraction",
+      "name": "Caption Extraction",
+      "description": "Extracting captions from videos - An AI-powered tool that automatically extracts and transcribes captions from video files, supporting multiple languages and formats.",
+      "status": "done",
+      "version": "beta 1.1.0",
+      "created_at": "2024-01-02",
+      "updated_at": "2024-01-16",
+      "URL": "https://github.com/ChinE-XandEr/caption_extraction"
+    },
+    {
+      "id": "bosidafeiji",
+      "name": "bosidafeiji",
+      "description": "A game based on HTML - An interactive browser-based game featuring space combat mechanics, built with HTML5, CSS3, and JavaScript for engaging gameplay experience.",
+      "status": "done",
+      "version":"beta 1.0.0",
+      "created_at": "2024-01-03",
+      "updated_at": "2024-01-17",
+      "URL": "https://github.com/ChinE-XandEr/bosidafeiji"
+    },
+    {
+      "id": "bosikuaipao",
+      "name": "bosikuaipao",
+      "description": "A game based on HTML - A fast-paced racing game built with modern web technologies, featuring smooth animations and responsive controls for an immersive gaming experience.",
+      "status": "done",
+      "version":"beta 1.0.0",
+      "created_at": "2024-01-04",
+      "updated_at": "2024-01-18",
+      "URL": "https://github.com/ChinE-XandEr/bosikuaipao"
     }
   ]
 }
