@@ -44,6 +44,13 @@ body {
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
+/* 默认文本颜色跟随主题变量 */
+html,
+body,
+#app {
+  color: var(--text-color);
+}
+
 /* 确保Element Plus组件使用主题变量 */
 .el-card {
   background-color: var(--header-color) !important;

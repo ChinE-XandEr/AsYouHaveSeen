@@ -57,8 +57,7 @@
               {{ currentProject.status }}
             </el-tag>
           </div>
-
-          <el-descriptions :column="1" border style="margin-top: 20px">
+          <el-descriptions :column="2" style="margin-top: 20px">
             <el-descriptions-item label="Project ID">{{ currentProject.id }}</el-descriptions-item>
             <el-descriptions-item label="Status">{{ currentProject.status }}</el-descriptions-item>
             <el-descriptions-item label="Created At">{{
@@ -103,6 +102,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import projectsDetailsData from '@/assets/data/projectsdetails.json'
+import { Monitor, ArrowDown, Setting, Loading } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()

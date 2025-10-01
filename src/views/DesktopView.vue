@@ -31,6 +31,15 @@
       </div>
     </div>
 
+    <!-- 建议 -->
+    <section class="status-section">
+      <h2 class="section-title">
+        <el-icon><Monitor /></el-icon>
+        Recommendations
+      </h2>
+      <el-row :gutter="16"> </el-row>
+    </section>
+
     <!-- 快捷应用入口 -->
     <section class="apps-section">
       <div class="section-header">
@@ -201,12 +210,18 @@
       </el-dialog>
     </section>
 
-    <!-- 建议 -->
-    <section class="status-section">
+    <!-- 时间轴 -->
+    <section class="timeline-section">
       <h2 class="section-title">
-        <el-icon><Monitor /></el-icon>
-        Recommendations
+        <el-icon><Clock /></el-icon>
+        Timeline
       </h2>
+      <!-- 按钮剧中显示-->
+      <div class="timeline-button">
+        <el-button type="primary" @click="openTimeline">
+        Open Timeline
+        </el-button>
+      </div>
       <el-row :gutter="16"> </el-row>
     </section>
   </div>
@@ -444,6 +459,11 @@ export default {
       }
     }
 
+    // 打开时间轴
+    const openTimeline = () => {
+      router.push('/timeline')
+    }
+
     // 处理编辑工具状态
     const handleEditTools = async () => {
       if (isEditingTools.value) {
@@ -590,7 +610,8 @@ export default {
 .apps-section,
 .tools-section,
 .status-section,
-.recent-section {
+.recent-section,
+.timeline-section {
   margin: 0 24px 32px;
   padding: 20px;
   background: var(--header-color);

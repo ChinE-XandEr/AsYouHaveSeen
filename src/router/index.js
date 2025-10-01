@@ -10,12 +10,7 @@ const router = createRouter({
       component: DesktopView,
       meta: { title: 'Desktop' },
     },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
-      meta: { title: 'About' },
-    },
+
     {
       path: '/users',
       name: 'users',
@@ -45,6 +40,12 @@ const router = createRouter({
       name: 'profile',
       component: () => import('../views/ProfileView.vue'),
       meta: { title: 'Profile' },
+    },
+    {
+      path: '/timeline',
+      name: 'timeline',
+      component: () => import('../views/TimelineView.vue'),
+      meta: { title: 'Timeline' },
     },
   ],
 })

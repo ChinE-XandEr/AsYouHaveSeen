@@ -166,16 +166,19 @@ onMounted(async () => {
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
+  background-color: var(--header-color);
+  color: var(--text-color);
 }
 
 .theme-item:hover {
-  border-color: #409eff;
-  background-color: #f5f7fa;
+  border-color: var(--primary-color);
+  background-color: var(--hover-color);
 }
 
 .theme-item.active {
-  border-color: #409eff;
-  background-color: #ecf5ff;
+  border-color: var(--primary-color);
+  background-color: var(--primary-color);
+  color: #ffffff;
 }
 
 .theme-preview {
@@ -207,18 +210,18 @@ onMounted(async () => {
   margin: 0 0 4px 0;
   font-size: 14px;
   font-weight: 500;
-  color: #303133;
+  color: var(--text-color);
 }
 
 .theme-info p {
   margin: 0;
   font-size: 12px;
-  color: #909399;
+  color: var(--secondary-color);
   line-height: 1.4;
 }
 
 .active-icon {
-  color: #409eff;
+  color: var(--primary-color);
   font-size: 18px;
 }
 
