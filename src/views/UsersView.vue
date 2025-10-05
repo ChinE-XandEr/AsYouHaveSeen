@@ -77,6 +77,11 @@ const openSettings = () => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 }
 
 .system-title {
@@ -103,7 +108,7 @@ const openSettings = () => {
 }
 
 .content-container {
-  margin: 0 24px 32px;
+  margin: 80px 24px 32px;
   padding: 20px;
 }
 

@@ -37,7 +37,89 @@
         <el-icon><Monitor /></el-icon>
         Recommendations
       </h2>
-      <el-row :gutter="16"> </el-row>
+
+      <div v-if="recommendations.length > 0" class="recommendations-container">
+        <div
+          v-for="(recommendation, index) in recommendations"
+          :key="index"
+          class="recommendation-group"
+        >
+          <!-- 推荐应用 -->
+          <div
+            v-if="recommendation.RecommendedApps && recommendation.RecommendedApps.length > 0"
+            class="recommendation-section"
+          >
+            <div class="recommendation-grid">
+              <div
+                v-for="app in recommendation.RecommendedApps"
+                :key="app.id"
+                class="recommendation-card app-card"
+                @click="openRecommendedApp(app)"
+              >
+                <div class="card-icon app-icon">
+                  <el-icon><Monitor /></el-icon>
+                </div>
+                <div class="card-info">
+                  <div class="card-name">{{ app.name }}</div>
+                  <div class="card-subtitle">{{ app.location }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推荐工具 -->
+          <div
+            v-if="recommendation.RecommendedTools && recommendation.RecommendedTools.length > 0"
+            class="recommendation-section"
+          >
+            <div class="recommendation-grid">
+              <div
+                v-for="tool in recommendation.RecommendedTools"
+                :key="tool.id"
+                class="recommendation-card tool-card"
+                @click="openRecommendedTool(tool)"
+              >
+                <div class="card-icon tool-icon">
+                  <el-icon><Tools /></el-icon>
+                </div>
+                <div class="card-info">
+                  <div class="card-name">{{ tool.name }}</div>
+                  <div class="card-subtitle">{{ tool.URL }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 推荐项目 -->
+          <div
+            v-if="
+              recommendation.RecommendedProjects && recommendation.RecommendedProjects.length > 0
+            "
+            class="recommendation-section"
+          >
+            <div class="recommendation-grid">
+              <div
+                v-for="project in recommendation.RecommendedProjects"
+                :key="project.id"
+                class="recommendation-card project-card"
+                @click="openRecommendedProject(project)"
+              >
+                <div class="card-icon project-icon">
+                  <el-icon><Document /></el-icon>
+                </div>
+                <div class="card-info">
+                  <div class="card-name">{{ project.name }}</div>
+                  <div class="card-subtitle">{{ project.details }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div v-else class="no-recommendations">
+        <el-empty description="暂无推荐内容" />
+      </div>
     </section>
 
     <!-- 快捷应用入口 -->
@@ -57,8 +139,8 @@
         </el-button>
       </div>
 
-      <el-row :gutter="16">
-        <el-col v-for="app in systemApps" :key="app.id" :span="6">
+      <div class="apps-grid">
+        <div v-for="app in systemApps" :key="app.id" class="app-item">
           <el-card
             class="app-card"
             shadow="hover"
@@ -80,17 +162,17 @@
               </div>
             </div>
           </el-card>
-        </el-col>
+        </div>
 
         <!-- 添加新项目的卡片 -->
-        <el-col v-if="isEditing" :span="6">
+        <div v-if="isEditing" class="app-item">
           <el-card class="app-card add-card" shadow="hover" @click="showAddProjectDialog">
             <div class="add-icon">
               <el-icon :size="32"><Plus /></el-icon>
             </div>
           </el-card>
-        </el-col>
-      </el-row>
+        </div>
+      </div>
 
       <!-- 添加/编辑项目的对话框 -->
       <el-dialog
@@ -148,8 +230,8 @@
         </el-button>
       </div>
 
-      <el-row :gutter="16">
-        <el-col v-for="tool in commonTools" :key="tool.id" :span="4">
+      <div class="tools-grid">
+        <div v-for="tool in commonTools" :key="tool.id" class="tool-item">
           <el-card
             class="tool-card"
             shadow="hover"
@@ -166,17 +248,17 @@
               </div>
             </div>
           </el-card>
-        </el-col>
+        </div>
 
         <!-- 添加新工具的卡片 -->
-        <el-col v-if="isEditingTools" :span="4">
+        <div v-if="isEditingTools" class="tool-item">
           <el-card class="tool-card add-card" shadow="hover" @click="showAddToolDialog">
             <div class="add-icon">
               <el-icon :size="32"><Plus /></el-icon>
             </div>
           </el-card>
-        </el-col>
-      </el-row>
+        </div>
+      </div>
 
       <!-- 添加/编辑工具的对话框 -->
       <el-dialog
@@ -218,9 +300,7 @@
       </h2>
       <!-- 按钮剧中显示-->
       <div class="timeline-button">
-        <el-button type="primary" @click="openTimeline">
-        Open Timeline
-        </el-button>
+        <el-button type="primary" @click="openTimeline"> Open Timeline </el-button>
       </div>
       <el-row :gutter="16"> </el-row>
     </section>
@@ -232,6 +312,7 @@ import { ref, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import defaultProjectsData from '../assets/data/projects.json'
 import defaultToolsData from '../assets/data/tools.json'
+import recommendationsData from '../assets/data/recommendations.json'
 
 // 创建响应式数据存储
 const projectsData = reactive({
@@ -252,6 +333,7 @@ export default {
     const isEditingTools = ref(false)
     const dialogVisible = ref(false)
     const toolDialogVisible = ref(false)
+    const recommendations = ref([])
     const editingProject = ref({
       name: '',
       description: '',
@@ -271,6 +353,7 @@ export default {
     onMounted(() => {
       systemApps.value = [...projectsData.projects]
       commonTools.value = [...toolsData.tools]
+      recommendations.value = [...recommendationsData.recommendations]
     })
 
     // 保存到JSON文件
@@ -464,6 +547,29 @@ export default {
       router.push('/timeline')
     }
 
+    // 打开推荐应用
+    const openRecommendedApp = (app) => {
+      // 根据应用类型执行相应操作
+      console.log('打开推荐应用:', app)
+      ElMessage.info(`正在打开 ${app.name}`)
+    }
+
+    // 打开推荐工具
+    const openRecommendedTool = (tool) => {
+      // 在新窗口中打开工具URL
+      if (tool.URL) {
+        window.open(`https://${tool.URL}`, '_blank')
+      }
+    }
+
+    // 打开推荐项目
+    const openRecommendedProject = (project) => {
+      // 导航到项目详情页面
+      if (project.details) {
+        router.push(project.details)
+      }
+    }
+
     // 处理编辑工具状态
     const handleEditTools = async () => {
       if (isEditingTools.value) {
@@ -533,10 +639,15 @@ export default {
     return {
       systemApps,
       commonTools,
+      recommendations,
       openApp,
       openTool,
       openProfile,
       openSettings,
+      openTimeline,
+      openRecommendedApp,
+      openRecommendedTool,
+      openRecommendedProject,
       handleEditProjects,
       handleEditTools,
       isEditing,
@@ -582,6 +693,11 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 }
 
 .system-title {
@@ -612,7 +728,7 @@ export default {
 .status-section,
 .recent-section,
 .timeline-section {
-  margin: 0 24px 32px;
+  margin: 80px 24px 32px;
   padding: 20px;
   background: var(--header-color);
   border-radius: 8px;
@@ -637,19 +753,28 @@ export default {
   gap: 8px;
 }
 
-.app-card,
-.tool-card {
-  cursor: pointer;
-  transition: all 0.3s;
-  height: 100px;
+/* 项目网格布局 */
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
   margin-bottom: 16px;
 }
 
-.app-card:hover,
-.tool-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px var(--shadow-color);
-  background-color: var(--hover-color);
+.app-item {
+  min-width: 280px;
+}
+
+/* 工具网格布局 */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.tool-item {
+  min-width: 200px;
 }
 
 .app-content,
@@ -659,6 +784,7 @@ export default {
   gap: 16px;
   height: 100%;
   padding: 12px 16px;
+  box-sizing: border-box;
 }
 
 .app-icon,
@@ -680,6 +806,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   min-height: 48px;
+  overflow: hidden;
 }
 
 .app-name,
@@ -701,14 +828,6 @@ export default {
 
 .edit-active {
   color: var(--primary-color) !important;
-}
-
-.app-card {
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s;
-  height: 100px;
-  margin-bottom: 16px;
 }
 
 .app-card .project-delete-button {
@@ -848,5 +967,112 @@ export default {
 :deep(.el-timeline-item__timestamp) {
   font-size: 12px;
   color: var(--secondary-color);
+}
+
+/* 推荐内容样式 */
+.recommendations-container {
+  margin-top: 16px;
+}
+
+.recommendation-group {
+  margin-bottom: 24px;
+}
+
+.recommendation-section {
+  margin-bottom: 20px;
+}
+
+.recommendation-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recommendation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.app-card,
+.tool-card,
+.project-card,
+.recommendation-card {
+  background: var(--header-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+}
+
+.app-card:hover,
+.tool-card:hover,
+.project-card:hover,
+.recommendation-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px var(--shadow-color);
+  background-color: var(--hover-color);
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+}
+
+.recommendation-card .app-icon {
+  background: linear-gradient(135deg, #409eff, #67c23a);
+}
+
+.recommendation-card .tool-icon {
+  background: linear-gradient(135deg, #e6a23c, #f56c6c);
+}
+
+.recommendation-card .project-icon {
+  background: linear-gradient(135deg, #909399, #606266);
+}
+
+.card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 48px;
+  overflow: hidden;
+}
+
+.card-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 2px;
+  line-height: 1.4;
+}
+
+.card-subtitle {
+  font-size: 12px;
+  color: var(--secondary-color);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.no-recommendations {
+  text-align: center;
+  padding: 40px 20px;
 }
 </style>

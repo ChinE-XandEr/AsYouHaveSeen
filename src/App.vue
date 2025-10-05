@@ -127,6 +127,32 @@ body,
 }
 
 /* 描述列表样式 */
+.el-descriptions {
+  background-color: var(--header-color) !important;
+  color: var(--text-color) !important;
+}
+
+.el-descriptions__header {
+  background-color: var(--header-color) !important;
+  color: var(--text-color) !important;
+}
+
+.el-descriptions__body {
+  background-color: var(--header-color) !important;
+  color: var(--text-color) !important;
+}
+
+.el-descriptions__table {
+  background-color: var(--header-color) !important;
+  color: var(--text-color) !important;
+}
+
+.el-descriptions__cell {
+  background-color: var(--header-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
 .el-descriptions__label {
   color: var(--secondary-color) !important;
   background-color: var(--hover-color) !important;
@@ -138,6 +164,14 @@ body,
 }
 
 .el-descriptions--border .el-descriptions__cell {
+  border-color: var(--border-color) !important;
+}
+
+.el-descriptions--border .el-descriptions__label {
+  border-color: var(--border-color) !important;
+}
+
+.el-descriptions--border .el-descriptions__content {
   border-color: var(--border-color) !important;
 }
 
@@ -275,5 +309,177 @@ body,
 .el-select-dropdown__item.selected {
   background-color: var(--primary-color) !important;
   color: #ffffff !important;
+}
+
+/* 表格行选中状态 */
+.el-table__row.current-row {
+  background-color: var(--hover-color) !important;
+}
+
+.el-table__row.selected {
+  background-color: var(--hover-color) !important;
+}
+
+/* 表格条纹样式 */
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background-color: var(--hover-color) !important;
+}
+
+/* 空状态样式 */
+.el-empty {
+  color: var(--secondary-color) !important;
+}
+
+.el-empty__description {
+  color: var(--secondary-color) !important;
+}
+
+/* 加载状态样式 */
+.el-loading-mask {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.el-loading-spinner {
+  color: var(--primary-color) !important;
+}
+
+/* 消息提示样式 */
+.el-message {
+  background-color: var(--header-color) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+.el-message .el-message__content {
+  color: var(--text-color) !important;
+}
+
+.el-message--success {
+  background-color: #67c23a !important;
+  border-color: #67c23a !important;
+  color: #ffffff !important;
+}
+
+.el-message--success .el-message__content {
+  color: #ffffff !important;
+}
+
+.el-message--warning {
+  background-color: #e6a23c !important;
+  border-color: #e6a23c !important;
+  color: #ffffff !important;
+}
+
+.el-message--warning .el-message__content {
+  color: #ffffff !important;
+}
+
+.el-message--error {
+  background-color: #f56c6c !important;
+  border-color: #f56c6c !important;
+  color: #ffffff !important;
+}
+
+.el-message--error .el-message__content {
+  color: #ffffff !important;
+}
+
+.el-message--info {
+  background-color: #909399 !important;
+  border-color: #909399 !important;
+  color: #ffffff !important;
+}
+
+.el-message--info .el-message__content {
+  color: #ffffff !important;
+}
+
+/* 消息提示图标样式 */
+.el-message .el-message__icon {
+  color: inherit !important;
+}
+
+.el-message--success .el-message__icon {
+  color: #ffffff !important;
+}
+
+.el-message--warning .el-message__icon {
+  color: #ffffff !important;
+}
+
+.el-message--error .el-message__icon {
+  color: #ffffff !important;
+}
+
+.el-message--info .el-message__icon {
+  color: #ffffff !important;
+}
+
+/* 消息提示关闭按钮样式 */
+.el-message .el-message__closeBtn {
+  color: inherit !important;
+}
+
+.el-message--success .el-message__closeBtn {
+  color: #ffffff !important;
+}
+
+.el-message--warning .el-message__closeBtn {
+  color: #ffffff !important;
+}
+
+.el-message--error .el-message__closeBtn {
+  color: #ffffff !important;
+}
+
+.el-message--info .el-message__closeBtn {
+  color: #ffffff !important;
+}
+
+/* 通知样式 */
+.el-notification {
+  background-color: var(--header-color) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+.el-notification__title {
+  color: var(--text-color) !important;
+}
+
+.el-notification__content {
+  color: var(--secondary-color) !important;
+}
+
+/* 分页样式 */
+.el-pagination {
+  color: var(--text-color) !important;
+}
+
+.el-pagination .el-pager li {
+  background-color: var(--header-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.el-pagination .el-pager li:hover {
+  color: var(--primary-color) !important;
+}
+
+.el-pagination .el-pager li.active {
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+}
+
+.el-pagination .btn-prev,
+.el-pagination .btn-next {
+  background-color: var(--header-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.el-pagination .btn-prev:hover,
+.el-pagination .btn-next:hover {
+  color: var(--primary-color) !important;
 }
 </style>

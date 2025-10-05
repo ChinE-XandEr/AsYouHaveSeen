@@ -25,6 +25,7 @@
           :key="theme.id"
           class="theme-item"
           :class="{ active: currentThemeId === theme.id }"
+          :data-theme="theme.id"
           @click="switchTheme(theme.id)"
         >
           <div class="theme-preview" :style="getThemePreviewStyle(theme)">
@@ -87,7 +88,7 @@ const loadThemes = async () => {
 }
 
 // 切换主题
-const switchTheme = (themeId) => {
+const switchTheme = (themeId, showMessage = true) => {
   const theme = availableThemes.value.find((t) => t.id === themeId)
   if (!theme) return
 
@@ -102,7 +103,10 @@ const switchTheme = (themeId) => {
   // 保存到本地存储
   localStorage.setItem('selectedTheme', themeId)
 
-  ElMessage.success(`have been switched to ${theme.name}`)
+  // 只在用户主动切换时显示提示
+  if (showMessage) {
+    ElMessage.success(`have been switched to ${theme.name}`)
+  }
 }
 
 // 获取主题预览样式
@@ -119,9 +123,9 @@ const getThemePreviewStyle = (theme) => {
 const initTheme = () => {
   const savedTheme = localStorage.getItem('selectedTheme')
   if (savedTheme && availableThemes.value.find((t) => t.id === savedTheme)) {
-    switchTheme(savedTheme)
+    switchTheme(savedTheme, false) // 初始化时不显示提示
   } else {
-    switchTheme('light') // 默认主题
+    switchTheme('light', false) // 默认主题，初始化时不显示提示
   }
 }
 
@@ -179,6 +183,18 @@ onMounted(async () => {
   border-color: var(--primary-color);
   background-color: var(--primary-color);
   color: #ffffff;
+}
+
+/* 针对蓝色主题的特殊处理 */
+.theme-item.active[data-theme='blue'] {
+  background-color: rgba(30, 64, 175, 0.8);
+  border-color: rgba(30, 64, 175, 0.8);
+}
+
+/* 针对紫色主题的特殊处理 */
+.theme-item.active[data-theme='purple'] {
+  background-color: rgba(139, 92, 246, 0.8);
+  border-color: rgba(139, 92, 246, 0.8);
 }
 
 .theme-preview {
